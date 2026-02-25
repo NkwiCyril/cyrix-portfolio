@@ -61,9 +61,9 @@ export function Hero() {
       <Container>
         <div className="flex flex-col min-h-screen items-center justify-center pt-40">
           {/* Mentorship Coming Soon */}
-          <span className="flex items-center gap-2 border border-accent-dark rounded-4xl px-2 z-10">
+          <span className="flex items-center gap-2 border border-accent rounded-4xl px-2 z-10">
             <span className="text-accent-dark text-lg">✦</span>
-            <h4 className="text-center text-[12px] font-medium"><span className="font-logo">CYRIX </span> Mentorship Program - <span className="text-accent-dark font-light italic">Coming Soon</span></h4>
+            <h4 className="text-center text-[12px] font-medium"><span className="font-logo">CYRIX </span> Mentorship Program - <span className="text-accent font-light">Coming Soon</span></h4>
           </span>
           {/* Centered content */}  
           <div className="relative z-10 max-w-4xl pt-10 pb-20 text-center">
@@ -100,13 +100,13 @@ export function Hero() {
               className="mt-10"
             >
               <Button size="lg">
-                View Our Works
+                Get Started
                 <ArrowRight size={16} />
               </Button>
             </motion.div>
 
             {/* Contact info row */}
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
@@ -120,7 +120,7 @@ export function Hero() {
                 <p className="text-gray-400">Get in touch</p>
                 <p className="mt-1 text-white">hello@cyrix.dev</p>
               </div>
-            </motion.div>
+            </motion.div> */}
           </div>
         </div>
       </Container>

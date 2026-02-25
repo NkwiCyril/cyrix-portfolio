@@ -6,10 +6,6 @@ import Image from "next/image";
 
 const technologies = [
   {
-    name: "Figma",
-    src: "/assets/images/logos/Figma.png",
-  },
-  {
     name: "Laravel",
     src: "/assets/images/logos/Laravel.png",
   },
@@ -18,16 +14,16 @@ const technologies = [
     src: "/assets/images/logos/Next.js.png",
   },
   {
+    name: "React",
+    src: "/assets/images/logos/React.png",
+  },
+  {
     name: "Node.js",
     src: "/assets/images/logos/Node.js.png",
   },  
   {
-    name: "PostgreSQL",
-    src: "/assets/images/logos/PostgresSQL.png",
-  },
-  {
-    name: "React",
-    src: "/assets/images/logos/React.png",
+    name: "MySQL",
+    src: "/assets/images/logos/MySQL.png",
   },
   {
     name: "Tailwind CSS",
@@ -44,6 +40,10 @@ const technologies = [
   {
     name: "Capacitor",
     src: "/assets/images/logos/Capacitor.png"
+  },
+  {
+    name: "Figma",
+    src: "/assets/images/logos/Figma.png",
   },
   {
     name: "HTML5",

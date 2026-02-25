@@ -54,6 +54,10 @@ export const metadata: Metadata = {
   title: "Cyrix — Software Engineer, Web Developer & Content Creator",
   description:
     "Building modern digital experiences and sharing knowledge about tech, software & AI. Explore my portfolio, blog, and mentorship program.",
+  icons: {
+    icon: [{ url: "/cyrix-professional.png" }],
+    apple: [{ url: "/cyrix-professional.png" }],
+  },
   keywords: [
     "software engineer",
     "web developer",

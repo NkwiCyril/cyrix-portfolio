@@ -2,6 +2,7 @@
 
 import { Container } from "@/components/ui/container";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const skills = [
   { name: "Client Satisfaction", percentage: 98 },
@@ -15,7 +16,7 @@ const services = [
     number: "01",
     title: "Web Development",
     description:
-      "Full-stack web applications built with Next.js, React, and Node.js — optimized for performance and scalability.",
+      "Full-stack web applications built with Laravel, Next.js — optimized for performance and scalability.",
   },
   {
     number: "02",
@@ -27,7 +28,7 @@ const services = [
     number: "03",
     title: "Mobile Development",
     description:
-      "Cross-platform mobile applications using React Native that deliver native-like experiences on iOS and Android.",
+      "Cross-platform mobile applications using Ionic/Capacitor & React Native that deliver native-like experiences on iOS and Android.",
   },
   {
     number: "04",
@@ -39,7 +40,7 @@ const services = [
     number: "05",
     title: "API & Backend",
     description:
-      "Robust backend systems, RESTful APIs, and database architectures using Node.js, Supabase, and PostgreSQL.",
+      "Robust backend systems, RESTful APIs, and database architectures using Laravel, and PostgreSQL.",
   },
   {
     number: "06",
@@ -61,11 +62,16 @@ export function Services() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative aspect-4/3 overflow-hidden bg-gray-200"
+            className="relative aspect-square overflow-hidden"
           >
-            <div className="absolute inset-0 bg-linear-to-br from-gray-300 to-gray-100" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-sm text-gray-500">Team photo here</p>
+              <Image
+                src="/cyrix-professional.png"
+                alt="Team"
+                width={400}
+                height={400}
+                className="object-cover"
+              />
             </div>
           </motion.div>
 

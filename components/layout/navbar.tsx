@@ -12,7 +12,6 @@ const navLinks = [
   { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
   { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export function Navbar() {
@@ -31,13 +30,16 @@ export function Navbar() {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
           ? "bg-gray-950/90 backdrop-blur-xl border-b border-gray-800/50"
-          : "bg-transparent"
+          : "bg-transparent",
       )}
     >
       <Container>
         <nav className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="font-logo text-2xl tracking-wide text-white uppercase">
+          <Link
+            href="/"
+            className="font-logo text-2xl tracking-wide text-white uppercase"
+          >
             Cyrix
           </Link>
 
@@ -52,6 +54,12 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href={"/contact"}
+              className="text-sm font-medium uppercase tracking-wider text-gray-400 transition-colors hover:text-accent-dark"
+            >
+            Let's Talk
+          </Link>
           </div>
 
           {/* Mobile Toggle */}
