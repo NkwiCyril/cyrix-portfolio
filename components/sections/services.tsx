@@ -3,51 +3,14 @@
 import { Container } from "@/components/ui/container";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import { services } from "@/lib/data";
 
 const skills = [
   { name: "Client Satisfaction", percentage: 98 },
   { name: "Timely Delivery", percentage: 95 },
   { name: "Problem Solving", percentage: 97 },
   { name: "Attention to Detail", percentage: 96 },
-];
-
-const services = [
-  {
-    number: "01",
-    title: "Web Development",
-    description:
-      "Full-stack web applications built with Laravel, Next.js — optimized for performance and scalability.",
-  },
-  {
-    number: "02",
-    title: "UI/UX Design",
-    description:
-      "Clean, intuitive interfaces designed with user experience at the core. From wireframes to pixel-perfect implementations.",
-  },
-  {
-    number: "03",
-    title: "Mobile Development",
-    description:
-      "Cross-platform mobile applications using Ionic/Capacitor & React Native that deliver native-like experiences on iOS and Android.",
-  },
-  {
-    number: "04",
-    title: "AI Integration",
-    description:
-      "AI-powered features — from chatbots and content generation to intelligent automation and machine learning.",
-  },
-  {
-    number: "05",
-    title: "API & Backend",
-    description:
-      "Robust backend systems, RESTful APIs, and database architectures using Laravel, and PostgreSQL.",
-  },
-  {
-    number: "06",
-    title: "Content Creation",
-    description:
-      "Tech-focused content — tutorials, reviews, and insights on software development, tools, and AI.",
-  },
 ];
 
 export function Services() {
@@ -133,17 +96,21 @@ export function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="group border-b border-r border-gray-200 p-10 transition-colors hover:bg-gray-950 hover:text-white"
               >
-                <span className="text-sm font-bold text-gray-400 transition-colors group-hover:text-accent">
-                  {service.number}
-                </span>
-                <h3 className="mt-4 text-2xl font-bold text-gray-950 transition-colors group-hover:text-white">
-                  {service.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-gray-500 transition-colors group-hover:text-gray-400">
-                  {service.description}
-                </p>
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="group block border-b border-r border-gray-200 p-10 transition-colors hover:bg-gray-950 hover:text-white"
+                >
+                  <span className="text-sm font-bold text-gray-400 transition-colors group-hover:text-accent">
+                    {service.number}
+                  </span>
+                  <h3 className="mt-4 text-2xl font-bold text-gray-950 transition-colors group-hover:text-white">
+                    {service.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-500 transition-colors group-hover:text-gray-400">
+                    {service.description}
+                  </p>
+                </Link>
               </motion.div>
             ))}
           </div>

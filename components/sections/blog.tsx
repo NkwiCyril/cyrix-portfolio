@@ -5,36 +5,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
-
-const blogPosts = [
-  {
-    title: "Building Scalable Web Applications with Next.js 16",
-    excerpt:
-      "Learn how to leverage the latest features in Next.js 16 to build performant and scalable web applications.",
-    category: "Web Development",
-    date: "Feb 20, 2026",
-    readTime: "8 min read",
-    slug: "building-scalable-web-apps-nextjs-16",
-  },
-  {
-    title: "The Future of AI in Software Development",
-    excerpt:
-      "Exploring how artificial intelligence is transforming the way we write code and build software products.",
-    category: "AI & Tech",
-    date: "Feb 15, 2026",
-    readTime: "6 min read",
-    slug: "future-ai-software-development",
-  },
-  {
-    title: "Mastering TypeScript: Advanced Patterns",
-    excerpt:
-      "Deep dive into advanced TypeScript patterns that will make your code more maintainable and type-safe.",
-    category: "Programming",
-    date: "Feb 10, 2026",
-    readTime: "10 min read",
-    slug: "mastering-typescript-advanced-patterns",
-  },
-];
+import { blogPosts } from "@/lib/data";
 
 export function Blog() {
   return (
@@ -57,7 +28,7 @@ export function Blog() {
         </motion.div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {blogPosts.map((post, i) => (
+          {blogPosts.slice(0, 3).map((post, i) => (
             <motion.article
               key={post.slug}
               initial={{ opacity: 0, y: 20 }}
@@ -113,10 +84,12 @@ export function Blog() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-10 text-center"
         >
-          <Button size="lg">
-            View All Articles
-            <ArrowRight size={16} />
-          </Button>
+          <Link href="/blog">
+            <Button size="lg">
+              View All Articles
+              <ArrowRight size={16} />
+            </Button>
+          </Link>
         </motion.div>
       </Container>
     </section>

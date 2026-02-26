@@ -87,10 +87,9 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-gray-400"
+              className="mx-auto my-12 max-w-2xl text-lg leading-relaxed text-gray-200"
             >
-              Software engineer & content creator crafting immersive
-              and engaging digital experiences that help businesses grow.
+              Taking you Online Presence to the Next Level
             </motion.p>
 
             <motion.div
