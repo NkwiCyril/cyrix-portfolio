@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { WhatsAppFloat } from "@/components/ui/whatsapp-float";
 import "./globals.css";
 
 const helvena = localFont({
@@ -54,10 +55,6 @@ export const metadata: Metadata = {
   title: "Cyrix — Software Engineer, Web Developer & Content Creator",
   description:
     "Building modern digital experiences and sharing knowledge about tech, software & AI. Explore my portfolio, blog, and mentorship program.",
-  icons: {
-    icon: [{ url: "/cyrix-professional.png" }],
-    apple: [{ url: "/cyrix-professional.png" }],
-  },
   keywords: [
     "software engineer",
     "web developer",
@@ -82,6 +79,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <WhatsAppFloat />
       </body>
     </html>
   );
