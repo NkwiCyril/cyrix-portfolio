@@ -8,9 +8,9 @@ export function WhatsAppFloat() {
   const [isHovered, setIsHovered] = useState(false);
 
   // Replace with your actual WhatsApp number (format: country code + number, no + or spaces)
-  const whatsappNumber = "237687099374"; // Example: Cameroon number
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER; // Example: Cameroon number
   const whatsappMessage = encodeURIComponent(
-    "Hi! I'm interested in discussing a project with you."
+    "Hi! I'm interested in one of your services."
   );
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 

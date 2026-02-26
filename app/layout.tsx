@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { WhatsAppFloat } from "@/components/ui/whatsapp-float";
+import { ConditionalLayout } from "@/components/layout/conditional-layout";
 import "./globals.css";
 
 const helvena = localFont({
@@ -76,10 +74,7 @@ export default function RootLayout({
       <body
         className={`${helvena.variable} ${puertos.variable} antialiased bg-background text-foreground`}
       >
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppFloat />
+        <ConditionalLayout>{children}</ConditionalLayout>
       </body>
     </html>
   );
