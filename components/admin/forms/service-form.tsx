@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Save, Loader2, Plus, X } from "lucide-react";
 import type { Service } from "@/types/database";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 interface ServiceFormProps {
   service?: Service;
@@ -103,12 +104,11 @@ export function ServiceForm({ service }: ServiceFormProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300">Icon</label>
-            <input
-              type="text"
+            <ImageUpload
               value={formData.icon}
-              onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              className="mt-2 w-full rounded-lg border border-gray-700 bg-[#0a0a0a] px-4 py-2 text-white focus:border-accent focus:outline-none"
-              placeholder="Icon name or URL"
+              onChange={(url) => setFormData({ ...formData, icon: url })}
+              folder="services"
+              label="Upload Icon"
             />
           </div>
 

@@ -31,7 +31,7 @@ export function CTA() {
               size="lg"
               className="bg-gray-950 text-white hover:bg-gray-800"
             >
-              Let&apos;s Talk With Us
+              Work With Us
             </Button>
           </div>
         </motion.div>

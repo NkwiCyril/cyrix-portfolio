@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Save, Loader2 } from "lucide-react";
 import type { Feedback } from "@/types/database";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 interface FeedbackFormProps {
   feedback?: Feedback;
@@ -89,13 +90,12 @@ export function FeedbackForm({ feedback }: FeedbackFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300">Client Image URL</label>
-            <input
-              type="url"
+            <label className="block text-sm font-medium text-gray-300">Client Image</label>
+            <ImageUpload
               value={formData.image_url}
-              onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-              className="mt-2 w-full rounded-lg border border-gray-700 bg-[#0a0a0a] px-4 py-2 text-white focus:border-accent focus:outline-none"
-              placeholder="https://..."
+              onChange={(url) => setFormData({ ...formData, image_url: url })}
+              folder="feedbacks"
+              label="Upload Client Image"
             />
           </div>
 

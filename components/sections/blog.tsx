@@ -3,11 +3,16 @@
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar, Clock } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import Link from "next/link";
-import { blogPosts } from "@/lib/data";
+import Image from "next/image";
+import type { BlogPost } from "@/types/database";
 
-export function Blog() {
+interface BlogProps {
+  posts: BlogPost[];
+}
+
+export function Blog({ posts }: BlogProps) {
   return (
     <section className="bg-white py-24 lg:py-36">
       <Container>
@@ -28,9 +33,9 @@ export function Blog() {
         </motion.div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {blogPosts.slice(0, 3).map((post, i) => (
+          {posts.slice(0, 3).map((post, i) => (
             <motion.article
-              key={post.slug}
+              key={post.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -39,16 +44,22 @@ export function Blog() {
             >
               <Link href={`/blog/${post.slug}`}>
                 <div className="overflow-hidden border border-gray-200 bg-gray-50 transition-all duration-100 hover:shadow-lg">
-                  {/* Image placeholder */}
-                  <div className="aspect-video bg-linear-to-br from-gray-200 to-gray-100">
-                    <div className="flex h-full items-center justify-center">
-                      <span className="text-sm text-gray-400">
-                        Article image
-                      </span>
-                    </div>
+                  <div className="relative aspect-video bg-gray-100">
+                    {post.featured_image_url ? (
+                      <Image
+                        src={post.featured_image_url}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center">
+                        <span className="text-sm text-gray-400">Article image</span>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Content */}
                   <div className="p-6">
                     <span className="text-xs font-bold uppercase tracking-wider text-accent">
                       {post.category}
@@ -60,15 +71,16 @@ export function Blog() {
                       {post.excerpt}
                     </p>
 
-                    {/* Meta */}
                     <div className="mt-6 flex items-center gap-4 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
                         <Calendar size={14} />
-                        {post.date}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock size={14} />
-                        {post.readTime}
+                        {post.published_date
+                          ? new Date(post.published_date).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })
+                          : ""}
                       </span>
                     </div>
                   </div>

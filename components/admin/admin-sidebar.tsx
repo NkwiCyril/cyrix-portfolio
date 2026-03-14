@@ -32,9 +32,12 @@ export function AdminSidebar() {
   return (
     <aside className="w-64 border-r border-gray-800 bg-[#0f0f0f]">
       <div className="flex h-16 items-center border-b border-gray-800 px-6">
-        <h1 className="font-puertos text-xl font-bold text-accent">
-          Cyrix Admin
-        </h1>
+        <Link
+            href="/"
+            className="font-logo text-2xl tracking-wide text-accent uppercase"
+          >
+            Cyrix
+          </Link>
       </div>
       <nav className="space-y-1 p-4">
         {navigation.map((item) => {

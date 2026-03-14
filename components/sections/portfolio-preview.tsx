@@ -3,10 +3,15 @@
 import { Container } from "@/components/ui/container";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { projects } from "@/lib/data";
 import Link from "next/link";
+import Image from "next/image";
+import type { Project } from "@/types/database";
 
-export function PortfolioPreview() {
+interface PortfolioPreviewProps {
+  projects: Project[];
+}
+
+export function PortfolioPreview({ projects }: PortfolioPreviewProps) {
   return (
     <section className="bg-gray-950 py-24 lg:py-36">
       <Container>
@@ -25,7 +30,7 @@ export function PortfolioPreview() {
       <div className="grid grid-cols-1 md:grid-cols-3">
         {projects.slice(0, 3).map((project, i) => (
           <motion.div
-            key={project.slug}
+            key={project.id}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -33,8 +38,18 @@ export function PortfolioPreview() {
           >
             <Link
               href={`/portfolio/${project.slug}`}
-              className={`group relative block aspect-3/4 overflow-hidden ${project.bg}`}
+              className="group relative block aspect-3/4 overflow-hidden bg-gray-900"
             >
+              {project.featured_image_url && (
+                <Image
+                  src={project.featured_image_url}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  unoptimized
+                />
+              )}
+
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
 

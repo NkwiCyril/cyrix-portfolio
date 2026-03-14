@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Save, Loader2, Plus, X } from "lucide-react";
 import type { Project } from "@/types/database";
+import { ImageUpload, MultiImageUpload } from "@/components/admin/image-upload";
 
 interface ProjectFormProps {
   project?: Project;
@@ -32,7 +33,6 @@ export function ProjectForm({ project }: ProjectFormProps) {
   const [technologies, setTechnologies] = useState<string[]>(project?.technologies || []);
   const [features, setFeatures] = useState<string[]>(project?.features || []);
 
-  const [newImage, setNewImage] = useState("");
   const [newTech, setNewTech] = useState("");
   const [newFeature, setNewFeature] = useState("");
 
@@ -222,14 +222,13 @@ export function ProjectForm({ project }: ProjectFormProps) {
 
         <div className="mt-6">
           <label className="block text-sm font-medium text-gray-300">
-            Featured Image URL
+            Featured Image
           </label>
-          <input
-            type="url"
+          <ImageUpload
             value={formData.featured_image_url}
-            onChange={(e) => setFormData({ ...formData, featured_image_url: e.target.value })}
-            className="mt-2 w-full rounded-lg border border-gray-700 bg-[#0a0a0a] px-4 py-2 text-white focus:border-accent focus:outline-none"
-            placeholder="https://..."
+            onChange={(url) => setFormData({ ...formData, featured_image_url: url })}
+            folder="projects"
+            label="Upload Featured Image"
           />
         </div>
 
@@ -237,38 +236,12 @@ export function ProjectForm({ project }: ProjectFormProps) {
           <label className="block text-sm font-medium text-gray-300">
             Additional Images
           </label>
-          <div className="mt-2 flex gap-2">
-            <input
-              type="url"
-              value={newImage}
-              onChange={(e) => setNewImage(e.target.value)}
-              className="flex-1 rounded-lg border border-gray-700 bg-[#0a0a0a] px-4 py-2 text-white focus:border-accent focus:outline-none"
-              placeholder="Image URL"
-            />
-            <button
-              type="button"
-              onClick={() => addItem(newImage, setImages, () => setNewImage(""))}
-              className="rounded-lg bg-gray-700 px-4 py-2 text-white hover:bg-gray-600"
-            >
-              <Plus size={20} />
-            </button>
-          </div>
-          {images.length > 0 && (
-            <div className="mt-3 space-y-2">
-              {images.map((img, idx) => (
-                <div key={idx} className="flex items-center gap-2 rounded bg-gray-800 px-3 py-2">
-                  <span className="flex-1 truncate text-sm text-gray-300">{img}</span>
-                  <button
-                    type="button"
-                    onClick={() => removeItem(idx, setImages)}
-                    className="text-gray-400 hover:text-red-400"
-                  >
-                    <X size={16} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+          <MultiImageUpload
+            values={images}
+            onChange={setImages}
+            folder="projects"
+            label="Add Image"
+          />
         </div>
       </div>
 

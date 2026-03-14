@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Save, Loader2 } from "lucide-react";
 import type { TechStack } from "@/types/database";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 interface TechStackFormProps {
   tech?: TechStack;
@@ -93,13 +94,12 @@ export function TechStackForm({ tech }: TechStackFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300">Icon URL</label>
-            <input
-              type="url"
+            <label className="block text-sm font-medium text-gray-300">Icon</label>
+            <ImageUpload
               value={formData.icon_url}
-              onChange={(e) => setFormData({ ...formData, icon_url: e.target.value })}
-              className="mt-2 w-full rounded-lg border border-gray-700 bg-[#0a0a0a] px-4 py-2 text-white focus:border-accent focus:outline-none"
-              placeholder="https://..."
+              onChange={(url) => setFormData({ ...formData, icon_url: url })}
+              folder="tech-stack"
+              label="Upload Icon"
             />
           </div>
         </div>

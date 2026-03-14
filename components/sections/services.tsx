@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { services } from "@/lib/data";
+import type { Service } from "@/types/database";
 
 const skills = [
   { name: "Client Satisfaction", percentage: 98 },
@@ -13,7 +13,11 @@ const skills = [
   { name: "Attention to Detail", percentage: 96 },
 ];
 
-export function Services() {
+interface ServicesProps {
+  services: Service[];
+}
+
+export function Services({ services }: ServicesProps) {
   return (
     <section className="bg-white py-24 lg:py-36">
       <Container>
@@ -91,7 +95,7 @@ export function Services() {
           <div className="mt-16 grid gap-0 border-t border-gray-200 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service, i) => (
               <motion.div
-                key={service.number}
+                key={service.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -102,7 +106,7 @@ export function Services() {
                   className="group block border-b border-r border-gray-200 p-10 transition-colors hover:bg-gray-950 hover:text-white"
                 >
                   <span className="text-sm font-bold text-gray-400 transition-colors group-hover:text-accent">
-                    {service.number}
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="mt-4 text-2xl font-bold text-gray-950 transition-colors group-hover:text-white">
                     {service.title}

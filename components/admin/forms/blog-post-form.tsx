@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Save, Loader2, Plus, X } from "lucide-react";
 import type { BlogPost } from "@/types/database";
 import { Editor } from "@tinymce/tinymce-react";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 interface BlogPostFormProps {
   post?: BlogPost;
@@ -160,12 +161,12 @@ export function BlogPostForm({ post }: BlogPostFormProps) {
         </div>
 
         <div className="mt-6">
-          <label className="block text-sm font-medium text-gray-300">Featured Image URL</label>
-          <input
-            type="url"
+          <label className="block text-sm font-medium text-gray-300">Featured Image</label>
+          <ImageUpload
             value={formData.featured_image_url}
-            onChange={(e) => setFormData({ ...formData, featured_image_url: e.target.value })}
-            className="mt-2 w-full rounded-lg border border-gray-700 bg-[#0a0a0a] px-4 py-2 text-white focus:border-accent focus:outline-none"
+            onChange={(url) => setFormData({ ...formData, featured_image_url: url })}
+            folder="blog"
+            label="Upload Featured Image"
           />
         </div>
 

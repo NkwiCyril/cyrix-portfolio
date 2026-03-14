@@ -3,35 +3,14 @@
 import { Container } from "@/components/ui/container";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
+import Image from "next/image";
+import type { Feedback } from "@/types/database";
 
-const testimonials = [
-  {
-    name: "Sarah Johnson",
-    role: "CEO, TechStart Inc.",
-    content:
-      "Working with Cyrix was an incredible experience. The attention to detail and technical expertise resulted in a product that exceeded our expectations. Our platform's performance improved by 300%.",
-  },
-  {
-    name: "Michael Chen",
-    role: "Product Manager, InnovateCo",
-    content:
-      "The web application delivered was not only visually stunning but also incredibly performant. Cyrix's understanding of modern tech stacks and best practices is truly impressive.",
-  },
-  {
-    name: "Emily Rodriguez",
-    role: "Founder, DesignLab",
-    content:
-      "From concept to deployment, the entire process was seamless. The communication was excellent, deadlines were met, and the final product was exactly what we envisioned — and more.",
-  },
-  {
-    name: "John Doe",
-    role: "CEO, TechStart Inc.",
-    content:
-      "From concept to deployment, the entire process was seamless. The communication was excellent, deadlines were met, and the final product was exactly what we envisioned — and more.",
-  }
-];
+interface TestimonialsProps {
+  feedbacks: Feedback[];
+}
 
-export function Testimonials() {
+export function Testimonials({ feedbacks }: TestimonialsProps) {
   return (
     <section className="bg-gray-950 py-24 lg:py-36">
       <Container>
@@ -46,9 +25,9 @@ export function Testimonials() {
         </motion.h2>
 
         <div className="grid gap-px bg-gray-800 md:grid-cols-3">
-          {testimonials.map((testimonial, i) => (
+          {feedbacks.map((feedback, i) => (
             <motion.div
-              key={testimonial.name}
+              key={feedback.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -58,21 +37,32 @@ export function Testimonials() {
               <Quote size={28} className="text-accent" />
 
               <p className="mt-6 text-base leading-relaxed text-gray-300">
-                &ldquo;{testimonial.content}&rdquo;
+                &ldquo;{feedback.feedback_text}&rdquo;
               </p>
 
               <div className="mt-8 flex items-center gap-4">
-                <div className="flex h-11 w-11 items-center justify-center bg-accent text-sm font-bold text-gray-950">
-                  {testimonial.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
+                {feedback.image_url ? (
+                  <div className="relative h-11 w-11 overflow-hidden rounded-full">
+                    <Image
+                      src={feedback.image_url}
+                      alt={feedback.client_name}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  </div>
+                ) : (
+                  <div className="flex h-11 w-11 items-center justify-center bg-accent text-sm font-bold text-gray-950">
+                    {feedback.client_name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </div>
+                )}
                 <div>
                   <p className="text-sm font-bold text-white">
-                    {testimonial.name}
+                    {feedback.client_name}
                   </p>
-                  <p className="text-xs text-gray-500">{testimonial.role}</p>
                 </div>
               </div>
             </motion.div>
