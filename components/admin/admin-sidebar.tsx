@@ -36,7 +36,7 @@ export function AdminSidebar() {
             href="/"
             className="font-logo text-2xl tracking-wide text-accent uppercase"
           >
-            Cyrix
+            Cyrix CMS
           </Link>
       </div>
       <nav className="space-y-1 p-4">

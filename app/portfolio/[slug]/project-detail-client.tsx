@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useMemo } from "react";
 import type { Project } from "@/types/database";
 
 interface ProjectDetailClientProps {
@@ -15,6 +16,19 @@ interface ProjectDetailClientProps {
 }
 
 export function ProjectDetailClient({ project, otherProjects }: ProjectDetailClientProps) {
+  const allImages = useMemo(() => {
+    const imgs: string[] = [];
+    if (project.featured_image_url) imgs.push(project.featured_image_url);
+    if (project.images && project.images.length > 0) {
+      project.images.forEach((img) => {
+        if (img && !imgs.includes(img)) imgs.push(img);
+      });
+    }
+    return imgs;
+  }, [project]);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <>
       <PageHero title={project.title} subtitle={project.description ?? undefined} />
@@ -29,24 +43,52 @@ export function ProjectDetailClient({ project, otherProjects }: ProjectDetailCli
               transition={{ duration: 0.5 }}
               className="lg:col-span-2"
             >
-              {/* Project image */}
-              <div className="relative mb-10 aspect-video overflow-hidden bg-gray-900">
-                {project.featured_image_url ? (
-                  <Image
-                    src={project.featured_image_url}
-                    alt={project.title}
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center">
-                    <span className="text-sm text-gray-500">
-                      Project screenshot
-                    </span>
+              {/* Project images */}
+              {allImages.length > 0 ? (
+                <div className="mb-10">
+                  {/* Active image */}
+                  <div className="relative aspect-video overflow-hidden bg-gray-900">
+                    <Image
+                      src={allImages[activeIndex]}
+                      alt={`${project.title} — image ${activeIndex + 1}`}
+                      fill
+                      className="object-cover transition-opacity duration-300"
+                      unoptimized
+                    />
                   </div>
-                )}
-              </div>
+
+                  {/* Thumbnail strip */}
+                  {allImages.length > 1 && (
+                    <div className="mt-3 flex gap-2 overflow-x-auto">
+                      {allImages.map((img, i) => (
+                        <button
+                          key={img}
+                          onClick={() => setActiveIndex(i)}
+                          className={`relative h-16 w-24 shrink-0 overflow-hidden border-2 transition-all ${
+                            i === activeIndex
+                              ? "border-accent"
+                              : "border-transparent opacity-60 hover:opacity-100"
+                          }`}
+                        >
+                          <Image
+                            src={img}
+                            alt={`${project.title} thumbnail ${i + 1}`}
+                            fill
+                            className="object-cover"
+                            unoptimized
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="relative mb-10 flex aspect-video items-center justify-center overflow-hidden bg-gray-900">
+                  <span className="text-sm text-gray-500">
+                    Project screenshot
+                  </span>
+                </div>
+              )}
 
               <h2 className="text-3xl font-bold text-gray-950">
                 About This Project
