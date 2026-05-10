@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -31,13 +32,19 @@ export function AdminSidebar() {
 
   return (
     <aside className="w-64 border-r border-gray-800 bg-[#0f0f0f]">
-      <div className="flex h-16 items-center border-b border-gray-800 px-6">
-        <Link
-            href="/"
-            className="font-logo text-2xl tracking-wide text-accent uppercase"
-          >
-            Cyrix CMS
-          </Link>
+      <div className="flex h-16 items-center gap-3 border-b border-gray-800 px-6">
+        <Link href="/" aria-label="Cyrix — Home" className="flex items-center gap-3">
+          <Image
+            src="/assets/images/logos/cyrix-final-logo.png"
+            alt="Cyrix"
+            width={120}
+            height={120}
+            className="h-9 w-auto"
+          />
+          <span className="text-sm font-bold uppercase tracking-wider text-accent">
+            CMS
+          </span>
+        </Link>
       </div>
       <nav className="space-y-1 p-4">
         {navigation.map((item) => {

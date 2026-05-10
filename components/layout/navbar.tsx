@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { services } from "@/lib/data";
@@ -54,11 +55,15 @@ export function Navbar() {
       <Container>
         <nav className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link
-            href="/"
-            className="font-logo text-2xl tracking-wide text-white uppercase"
-          >
-            Cyrix
+          <Link href="/" aria-label="Cyrix — Home" className="flex items-center">
+            <Image
+              src="/assets/images/logos/cyrix-final-logo-nobg.png"
+              alt="Cyrix"
+              width={200}
+              height={200}
+              priority
+              className="h-20 w-auto"
+            />
           </Link>
 
           {/* Desktop Nav */}

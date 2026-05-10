@@ -1,5 +1,5 @@
 import { Container } from "@/components/ui/container";
-import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 const footerLinks = [
@@ -14,25 +14,20 @@ export function Footer() {
     <footer className="bg-gray-950 pt-20 pb-10">
       <Container>
         <div className="grid gap-16 md:grid-cols-3">
-          {/* Email signup */}
+          {/* Brand mark */}
           <div>
-            <p className="text-sm font-bold leading-relaxed text-white">
-              Get valuable strategy, culture and brand
-              insights straight to your inbox
-            </p>
-            <div className="mt-6 flex items-center border-b border-gray-700">
-              <input
-                type="email"
-                placeholder="Your email here"
-                className="w-full bg-transparent py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none"
+            <Link href="/" aria-label="Cyrix — Home" className="inline-block">
+              <Image
+                src="/assets/images/logos/cyrix-final-logo-nobg.png"
+                alt="Cyrix"
+                width={400}
+                height={400}
+                className="h-50 w-auto"
               />
-              <button className="shrink-0 p-2 text-gray-400 transition-colors hover:text-accent">
-                <ArrowUpRight size={18} />
-              </button>
-            </div>
-            <p className="mt-4 text-xs leading-relaxed text-gray-600">
-              By signing up to receive emails from Cyrix, you agree to our
-              Privacy Policy. We treat your info responsibly.
+            </Link>
+            <p className="mt-6 max-w-xs text-sm leading-relaxed text-gray-400">
+              Building modern digital experiences and sharing knowledge about
+              tech, software & AI.
             </p>
           </div>
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { LogIn } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 
@@ -90,10 +91,18 @@ export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a] px-4">
       <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <h1 className="font-puertos text-3xl font-bold text-accent">
-            Cyrix Admin
-          </h1>
+        <div className="mb-8 flex flex-col items-center text-center">
+          <Image
+            src="/assets/images/logos/cyrix-final-logo.png"
+            alt="Cyrix"
+            width={200}
+            height={200}
+            priority
+            className="h-20 w-auto"
+          />
+          <p className="mt-4 text-xs font-bold uppercase tracking-widest text-accent">
+            Admin
+          </p>
           <p className="mt-2 text-sm text-gray-400">
             Sign in to manage your portfolio
           </p>
