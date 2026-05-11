@@ -1,5 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import sharp from "sharp";
 import { adminClient } from "@/utils/supabase/admin";
+
+export const runtime = "nodejs";
+
+const CONVERTIBLE_MIME = new Set([
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+  "image/tiff",
+]);
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,16 +24,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${folder ? folder + "/" : ""}${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
-
     const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    let buffer = Buffer.from(arrayBuffer);
+    let contentType = file.type;
+    let fileExt = file.name.split(".").pop()?.toLowerCase() || "bin";
+
+    if (CONVERTIBLE_MIME.has(file.type)) {
+      buffer = await sharp(new Uint8Array(arrayBuffer))
+        .webp({ quality: 85, alphaQuality: 90, effort: 5 })
+        .toBuffer();
+      contentType = "image/webp";
+      fileExt = "webp";
+    }
+
+    const fileName = `${folder ? folder + "/" : ""}${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
 
     const { data, error } = await adminClient.storage
       .from(bucket)
       .upload(fileName, buffer, {
-        contentType: file.type,
+        contentType,
         upsert: false,
       });
 

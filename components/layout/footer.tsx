@@ -18,7 +18,7 @@ export function Footer() {
           <div>
             <Link href="/" aria-label="Cyrix — Home" className="inline-block">
               <Image
-                src="/assets/images/logos/cyrix-final-logo-nobg.png"
+                src="/assets/images/logos/cyrix-final-logo-nobg.webp"
                 alt="Cyrix"
                 width={400}
                 height={400}

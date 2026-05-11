@@ -35,7 +35,7 @@ export function AdminSidebar() {
       <div className="flex h-16 items-center gap-3 border-b border-gray-800 px-6">
         <Link href="/" aria-label="Cyrix — Home" className="flex items-center gap-3">
           <Image
-            src="/assets/images/logos/cyrix-final-logo.png"
+            src="/assets/images/logos/cyrix-final-logo.webp"
             alt="Cyrix"
             width={120}
             height={120}

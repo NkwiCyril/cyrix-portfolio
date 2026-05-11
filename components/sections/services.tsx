@@ -33,7 +33,7 @@ export function Services({ services }: ServicesProps) {
           >
             <div className="absolute inset-0 flex items-center justify-center">
               <Image
-                src="/cyrix-professional.png"
+                src="/cyrix-professional.webp"
                 alt="Team"
                 width={400}
                 height={400}

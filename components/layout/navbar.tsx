@@ -57,7 +57,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" aria-label="Cyrix — Home" className="flex items-center">
             <Image
-              src="/assets/images/logos/cyrix-final-logo-nobg.png"
+              src="/assets/images/logos/cyrix-final-logo-nobg.webp"
               alt="Cyrix"
               width={200}
               height={200}

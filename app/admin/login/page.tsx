@@ -93,7 +93,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center text-center">
           <Image
-            src="/assets/images/logos/cyrix-final-logo.png"
+            src="/assets/images/logos/cyrix-final-logo.webp"
             alt="Cyrix"
             width={200}
             height={200}

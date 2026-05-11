@@ -51,7 +51,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 bg-center bg-cover grayscale"
         style={{
           backgroundImage:
-            "url('/assets/images/business-people-working-together.jpg')",
+            "url('/assets/images/business-people-working-together.webp')",
         }}
       />
       {/* Dark overlays for blend + readability */}
