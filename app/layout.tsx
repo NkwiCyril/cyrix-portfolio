@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import { ConditionalLayout } from "@/components/layout/conditional-layout";
 import "./globals.css";
 
@@ -75,6 +76,7 @@ export default function RootLayout({
         className={`${helvena.variable} ${puertos.variable} antialiased bg-background text-foreground`}
       >
         <ConditionalLayout>{children}</ConditionalLayout>
+        <Analytics />
       </body>
     </html>
   );
