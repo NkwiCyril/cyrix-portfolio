@@ -30,7 +30,7 @@ export default async function Home() {
   const projects = projectsRes.data ?? [];
   const feedbacks = feedbacksRes.data ?? [];
   const blogPosts = blogRes.data ?? [];
-  const techStack = techRes.data ?? [];
+  // const techStack = techRes.data ?? [];
 
   return (
     <>
@@ -40,7 +40,7 @@ export default async function Home() {
       <PortfolioPreview projects={projects} />
       <Testimonials feedbacks={feedbacks} />
       <Blog posts={blogPosts} />
-      <TrustBar techStack={techStack} />
+      {/* <TrustBar techStack={techStack} /> */}
       <CTA />
     </>
   );

@@ -52,7 +52,7 @@ export function ProjectDetailClient({ project, otherProjects }: ProjectDetailCli
                       src={allImages[activeIndex]}
                       alt={`${project.title} — image ${activeIndex + 1}`}
                       fill
-                      className="object-cover transition-opacity duration-300"
+                      className="object-contain transition-opacity duration-300"
                       unoptimized
                     />
                   </div>
@@ -74,7 +74,7 @@ export function ProjectDetailClient({ project, otherProjects }: ProjectDetailCli
                             src={img}
                             alt={`${project.title} thumbnail ${i + 1}`}
                             fill
-                            className="object-cover"
+                            className="object-contain"
                             unoptimized
                           />
                         </button>
