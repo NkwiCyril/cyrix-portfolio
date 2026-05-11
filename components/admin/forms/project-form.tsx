@@ -236,11 +236,14 @@ export function ProjectForm({ project }: ProjectFormProps) {
           <label className="block text-sm font-medium text-gray-300">
             Additional Images
           </label>
+          <p className="mt-1 text-xs text-gray-500">
+            Select one or more images — hold Ctrl/Cmd or Shift in the file picker to pick several at once.
+          </p>
           <MultiImageUpload
             values={images}
             onChange={setImages}
             folder="projects"
-            label="Add Image"
+            label="Add Images"
           />
         </div>
       </div>

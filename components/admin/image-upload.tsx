@@ -134,44 +134,73 @@ export function MultiImageUpload({
   onChange,
   folder = "general",
   bucket = "uploads",
-  label = "Add Image",
+  label = "Add Images",
 }: MultiImageUploadProps) {
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState({ done: 0, total: 0 });
   const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const uploadOne = async (file: File): Promise<string> => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("bucket", bucket);
+    formData.append("folder", folder);
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || `Failed to upload ${file.name}`);
+    }
+    return data.url as string;
+  };
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files ?? []);
+    if (files.length === 0) return;
 
     setError("");
     setUploading(true);
+    setProgress({ done: 0, total: files.length });
 
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("bucket", bucket);
-      formData.append("folder", folder);
+    const results = await Promise.allSettled(
+      files.map(async (file) => {
+        const url = await uploadOne(file);
+        setProgress((p) => ({ ...p, done: p.done + 1 }));
+        return url;
+      })
+    );
 
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Upload failed");
+    const uploaded: string[] = [];
+    const failures: string[] = [];
+    results.forEach((r, i) => {
+      if (r.status === "fulfilled") {
+        uploaded.push(r.value);
+      } else {
+        const msg = r.reason instanceof Error ? r.reason.message : "Upload failed";
+        failures.push(`${files[i].name}: ${msg}`);
       }
+    });
 
-      onChange([...values, data.url]);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setUploading(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+    if (uploaded.length > 0) {
+      onChange([...values, ...uploaded]);
+    }
+    if (failures.length > 0) {
+      setError(
+        failures.length === files.length
+          ? failures.join(" • ")
+          : `${failures.length} of ${files.length} failed. ${failures.join(" • ")}`
+      );
+    }
+
+    setUploading(false);
+    setProgress({ done: 0, total: 0 });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -185,6 +214,7 @@ export function MultiImageUpload({
         ref={fileInputRef}
         type="file"
         accept="image/*"
+        multiple
         onChange={handleUpload}
         className="hidden"
       />
@@ -223,7 +253,7 @@ export function MultiImageUpload({
         {uploading ? (
           <>
             <Loader2 size={16} className="animate-spin" />
-            Uploading...
+            Uploading {progress.done} of {progress.total}…
           </>
         ) : (
           <>
