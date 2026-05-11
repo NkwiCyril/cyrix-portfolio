@@ -25,12 +25,14 @@ export async function POST(request: NextRequest) {
     }
 
     const arrayBuffer = await file.arrayBuffer();
-    let buffer = Buffer.from(arrayBuffer);
+    const inputBytes = new Uint8Array(arrayBuffer);
+
+    let buffer: Uint8Array = inputBytes;
     let contentType = file.type;
     let fileExt = file.name.split(".").pop()?.toLowerCase() || "bin";
 
     if (CONVERTIBLE_MIME.has(file.type)) {
-      buffer = await sharp(new Uint8Array(arrayBuffer))
+      buffer = await sharp(inputBytes)
         .webp({ quality: 85, alphaQuality: 90, effort: 5 })
         .toBuffer();
       contentType = "image/webp";
