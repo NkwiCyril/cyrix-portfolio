@@ -227,10 +227,10 @@ export default function ContactPage() {
                       Email
                     </p>
                     <a
-                      href="mailto:hello@cyrix.dev"
+                      href="mailto:akinimbomnkwi@gmail.com"
                       className="mt-1 block text-sm font-medium text-gray-950 transition-colors hover:text-accent"
                     >
-                      hello@cyrix.dev
+                      akinimbomnkwi@gmail.com
                     </a>
                   </div>
                 </div>
@@ -244,10 +244,10 @@ export default function ContactPage() {
                       Phone
                     </p>
                     <a
-                      href="tel:+237123456789"
+                      href="tel:+237687099374"
                       className="mt-1 block text-sm font-medium text-gray-950 transition-colors hover:text-accent"
                     >
-                      +237 123 456 789
+                      +237 687099374
                     </a>
                   </div>
                 </div>

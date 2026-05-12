@@ -3,6 +3,7 @@ import {
   FolderKanban,
   Briefcase,
   FileText,
+  Inbox,
   Megaphone,
   GraduationCap,
   Wrench,
@@ -20,6 +21,7 @@ export default async function AdminDashboard() {
     coursesCount,
     techStackCount,
     feedbacksCount,
+    messagesUnreadCount,
   ] = await Promise.all([
     adminClient.from("projects").select("*", { count: "exact", head: true }),
     adminClient.from("services").select("*", { count: "exact", head: true }),
@@ -28,6 +30,10 @@ export default async function AdminDashboard() {
     adminClient.from("courses").select("*", { count: "exact", head: true }),
     adminClient.from("tech_stack").select("*", { count: "exact", head: true }),
     adminClient.from("feedbacks").select("*", { count: "exact", head: true }),
+    adminClient
+      .from("messages")
+      .select("*", { count: "exact", head: true })
+      .eq("is_read", false),
   ]);
 
   const stats = [
@@ -79,6 +85,13 @@ export default async function AdminDashboard() {
       icon: MessageSquare,
       href: "/admin/feedbacks",
       color: "text-pink-400",
+    },
+    {
+      name: "Unread Messages",
+      count: messagesUnreadCount.count || 0,
+      icon: Inbox,
+      href: "/admin/messages",
+      color: "text-accent",
     },
   ];
 

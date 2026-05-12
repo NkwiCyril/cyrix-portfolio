@@ -113,6 +113,16 @@ export interface Course {
   updated_at: string;
 }
 
+export interface Message {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+}
+
 export type Database = {
   public: {
     Tables: {
@@ -124,6 +134,7 @@ export type Database = {
       blog_posts: { Row: BlogPost; Insert: Omit<BlogPost, "id" | "created_at" | "updated_at">; Update: Partial<Omit<BlogPost, "id">> };
       announcements: { Row: Announcement; Insert: Omit<Announcement, "id" | "created_at" | "updated_at">; Update: Partial<Omit<Announcement, "id">> };
       courses: { Row: Course; Insert: Omit<Course, "id" | "created_at" | "updated_at">; Update: Partial<Omit<Course, "id">> };
+      messages: { Row: Message; Insert: Omit<Message, "id" | "created_at" | "is_read"> & { is_read?: boolean }; Update: Partial<Omit<Message, "id" | "created_at">> };
     };
   };
 };

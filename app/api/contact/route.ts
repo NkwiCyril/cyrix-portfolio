@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { adminClient } from "@/utils/supabase/admin";
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,17 +23,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Integrate with your email service (e.g., Resend, SendGrid, Nodemailer)
-    // For now, we'll just log the data and return success
-    // You'll need to add your email service credentials to .env.local
+    // Trim & cap lengths to avoid abuse
+    const payload = {
+      name: String(name).trim().slice(0, 200),
+      email: String(email).trim().slice(0, 320),
+      subject: String(subject).trim().slice(0, 300),
+      message: String(message).trim().slice(0, 5000),
+    };
 
-    console.log("Contact form submission:", {
-      name,
-      email,
-      subject,
-      message,
-      timestamp: new Date().toISOString(),
-    });
+    const { error: dbError } = await adminClient
+      .from("messages")
+      .insert([payload]);
+
+    if (dbError) {
+      console.error("Failed to save message:", dbError);
+      return NextResponse.json(
+        { error: "Could not save your message. Please try again." },
+        { status: 500 }
+      );
+    }
 
     // Example with Resend (uncomment and configure when ready):
     /*

@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Briefcase,
   FileText,
+  Inbox,
   Megaphone,
   GraduationCap,
   Wrench,
@@ -24,6 +25,7 @@ const navigation = [
   { name: "Courses", href: "/admin/courses", icon: GraduationCap },
   { name: "Tech Stack", href: "/admin/tech-stack", icon: Wrench },
   { name: "Feedbacks", href: "/admin/feedbacks", icon: MessageSquare },
+  { name: "Messages", href: "/admin/messages", icon: Inbox },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
