@@ -95,7 +95,7 @@ export function PricingTiers({ tiers, usdToXafRate }: PricingTiersProps) {
                   </h3>
                   <div className="mt-4 flex items-baseline gap-2">
                     <span className="text-2xl font-bold">
-                      {currency === "XAF" ? "₣" : "$"}
+                      {currency === "XAF" ? "XAF" : "$"}
                     </span>
                     <span className="text-4xl font-bold lg:text-5xl">
                       {formatPrice(tier.price_xaf, currency, usdToXafRate)}
