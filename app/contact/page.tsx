@@ -193,7 +193,7 @@ export default function ContactPage() {
                   </p>
                   <div className="mt-3 flex flex-wrap gap-3">
                     <a
-                      href={`https://wa.me/237687099374?text=${encodeURIComponent(
+                      href={`https://wa.me/237651085550?text=${encodeURIComponent(
                         "Hi Cyrix! I'd like to discuss a project with you."
                       )}`}
                       target="_blank"
@@ -270,10 +270,10 @@ export default function ContactPage() {
                       Phone
                     </p>
                     <a
-                      href="tel:+237687099374"
+                      href="tel:+237651085550"
                       className="mt-1 block text-sm font-medium text-gray-950 transition-colors hover:text-accent"
                     >
-                      +237 687099374
+                      +237 651085550
                     </a>
                   </div>
                 </div>
