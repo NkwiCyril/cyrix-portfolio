@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Save, Loader2, Plus, X } from "lucide-react";
-import type { Service } from "@/types/database";
+import { Save, Loader2, Plus, Star, X } from "lucide-react";
+import type { Service, PricingTier } from "@/types/database";
 import { ImageUpload } from "@/components/admin/image-upload";
 
 interface ServiceFormProps {
@@ -30,6 +30,49 @@ export function ServiceForm({ service }: ServiceFormProps) {
   const [features, setFeatures] = useState<string[]>(service?.features || []);
   const [newFeature, setNewFeature] = useState("");
 
+  const [pricingTiers, setPricingTiers] = useState<PricingTier[]>(
+    service?.pricing_tiers || []
+  );
+
+  const addPricingTier = () => {
+    setPricingTiers([
+      ...pricingTiers,
+      {
+        name: "",
+        price_xaf: null,
+        is_popular: false,
+        features: [],
+        cta_label: "Order Now",
+        cta_link: null,
+      },
+    ]);
+  };
+
+  const updatePricingTier = (index: number, patch: Partial<PricingTier>) => {
+    setPricingTiers(
+      pricingTiers.map((t, i) => (i === index ? { ...t, ...patch } : t))
+    );
+  };
+
+  const removePricingTier = (index: number) => {
+    setPricingTiers(pricingTiers.filter((_, i) => i !== index));
+  };
+
+  const addTierFeature = (tierIndex: number, feature: string) => {
+    if (!feature.trim()) return;
+    updatePricingTier(tierIndex, {
+      features: [...pricingTiers[tierIndex].features, feature.trim()],
+    });
+  };
+
+  const removeTierFeature = (tierIndex: number, featureIndex: number) => {
+    updatePricingTier(tierIndex, {
+      features: pricingTiers[tierIndex].features.filter(
+        (_, i) => i !== featureIndex
+      ),
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -39,6 +82,7 @@ export function ServiceForm({ service }: ServiceFormProps) {
       const payload = {
         ...formData,
         features,
+        pricing_tiers: pricingTiers,
       };
 
       const url = service ? `/api/services/${service.id}` : "/api/services";
@@ -215,6 +259,47 @@ export function ServiceForm({ service }: ServiceFormProps) {
         )}
       </div>
 
+      {/* Pricing Tiers */}
+      <div className="rounded-lg border border-gray-800 bg-[#0f0f0f] p-6">
+        <div className="mb-4 flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-white">Pricing Tiers</h2>
+            <p className="mt-1 text-xs text-gray-500">
+              Public pricing cards shown on the service detail page. Prices in XAF.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={addPricingTier}
+            className="flex items-center gap-2 rounded-lg bg-gray-700 px-3 py-2 text-sm font-medium text-white hover:bg-gray-600"
+          >
+            <Plus size={16} />
+            Add Tier
+          </button>
+        </div>
+
+        {pricingTiers.length === 0 && (
+          <p className="rounded border border-dashed border-gray-700 p-6 text-center text-sm text-gray-500">
+            No pricing tiers yet. Click "Add Tier" to create one.
+          </p>
+        )}
+
+        <div className="space-y-4">
+          {pricingTiers.map((tier, tierIndex) => (
+            <PricingTierEditor
+              key={tierIndex}
+              tier={tier}
+              onChange={(patch) => updatePricingTier(tierIndex, patch)}
+              onRemove={() => removePricingTier(tierIndex)}
+              onAddFeature={(feature) => addTierFeature(tierIndex, feature)}
+              onRemoveFeature={(featureIndex) =>
+                removeTierFeature(tierIndex, featureIndex)
+              }
+            />
+          ))}
+        </div>
+      </div>
+
       {error && (
         <div className="rounded-lg border border-red-800 bg-red-950/20 p-4 text-sm text-red-400">
           {error}
@@ -248,5 +333,154 @@ export function ServiceForm({ service }: ServiceFormProps) {
         </button>
       </div>
     </form>
+  );
+}
+
+interface PricingTierEditorProps {
+  tier: PricingTier;
+  onChange: (patch: Partial<PricingTier>) => void;
+  onRemove: () => void;
+  onAddFeature: (feature: string) => void;
+  onRemoveFeature: (index: number) => void;
+}
+
+function PricingTierEditor({
+  tier,
+  onChange,
+  onRemove,
+  onAddFeature,
+  onRemoveFeature,
+}: PricingTierEditorProps) {
+  const [newFeature, setNewFeature] = useState("");
+
+  return (
+    <div className="rounded-lg border border-gray-700 bg-[#0a0a0a] p-5">
+      <div className="flex items-start justify-between gap-3">
+        <input
+          type="text"
+          value={tier.name}
+          onChange={(e) => onChange({ name: e.target.value })}
+          placeholder="Tier name (e.g., Corporate, E-Commerce)"
+          className="flex-1 rounded-lg border border-gray-700 bg-[#0f0f0f] px-3 py-2 text-sm font-semibold text-white focus:border-accent focus:outline-none"
+        />
+        <button
+          type="button"
+          onClick={onRemove}
+          className="rounded p-2 text-gray-400 transition-colors hover:bg-red-950/30 hover:text-red-400"
+          title="Remove tier"
+        >
+          <X size={18} />
+        </button>
+      </div>
+
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div>
+          <label className="block text-xs font-medium uppercase tracking-wider text-gray-500">
+            Price (XAF)
+          </label>
+          <input
+            type="number"
+            value={tier.price_xaf ?? ""}
+            onChange={(e) =>
+              onChange({
+                price_xaf: e.target.value === "" ? null : parseInt(e.target.value),
+              })
+            }
+            placeholder="Leave blank for custom quote"
+            className="mt-1 w-full rounded-lg border border-gray-700 bg-[#0f0f0f] px-3 py-2 text-sm text-white focus:border-accent focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium uppercase tracking-wider text-gray-500">
+            CTA Label
+          </label>
+          <input
+            type="text"
+            value={tier.cta_label ?? ""}
+            onChange={(e) => onChange({ cta_label: e.target.value })}
+            placeholder="Order Now"
+            className="mt-1 w-full rounded-lg border border-gray-700 bg-[#0f0f0f] px-3 py-2 text-sm text-white focus:border-accent focus:outline-none"
+          />
+        </div>
+
+        <div className="sm:col-span-2">
+          <label className="block text-xs font-medium uppercase tracking-wider text-gray-500">
+            CTA Link <span className="text-gray-600">(optional — defaults to /contact)</span>
+          </label>
+          <input
+            type="text"
+            value={tier.cta_link ?? ""}
+            onChange={(e) =>
+              onChange({ cta_link: e.target.value === "" ? null : e.target.value })
+            }
+            placeholder="/contact or https://..."
+            className="mt-1 w-full rounded-lg border border-gray-700 bg-[#0f0f0f] px-3 py-2 text-sm text-white focus:border-accent focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <label className="mt-3 flex cursor-pointer items-center gap-2 text-sm text-gray-300">
+        <input
+          type="checkbox"
+          checked={tier.is_popular}
+          onChange={(e) => onChange({ is_popular: e.target.checked })}
+          className="h-4 w-4 accent-accent"
+        />
+        <Star size={14} className="text-yellow-400" />
+        Mark as popular
+      </label>
+
+      <div className="mt-4">
+        <label className="block text-xs font-medium uppercase tracking-wider text-gray-500">
+          Features
+        </label>
+        <div className="mt-2 flex gap-2">
+          <input
+            type="text"
+            value={newFeature}
+            onChange={(e) => setNewFeature(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                onAddFeature(newFeature);
+                setNewFeature("");
+              }
+            }}
+            placeholder="Domain & Hosting (1 Year)"
+            className="flex-1 rounded-lg border border-gray-700 bg-[#0f0f0f] px-3 py-2 text-sm text-white focus:border-accent focus:outline-none"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              onAddFeature(newFeature);
+              setNewFeature("");
+            }}
+            className="rounded-lg bg-gray-700 px-3 py-2 text-white hover:bg-gray-600"
+          >
+            <Plus size={16} />
+          </button>
+        </div>
+        {tier.features.length > 0 && (
+          <ul className="mt-2 space-y-1">
+            {tier.features.map((feature, idx) => (
+              <li
+                key={idx}
+                className="flex items-center gap-2 rounded bg-gray-800 px-3 py-1.5 text-sm text-gray-300"
+              >
+                <span className="flex-1">{feature}</span>
+                <button
+                  type="button"
+                  onClick={() => onRemoveFeature(idx)}
+                  className="text-gray-400 hover:text-red-400"
+                >
+                  <X size={14} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
   );
 }

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export function Hero() {
@@ -98,10 +99,12 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="mt-10"
             >
-              <Button size="lg">
-                Get Started
-                <ArrowRight size={16} />
-              </Button>
+              <Link href="/contact">
+                <Button size="lg">
+                  Get Started
+                  <ArrowRight size={16} />
+                </Button>
+              </Link>
             </motion.div>
 
             {/* Contact info row */}

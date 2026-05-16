@@ -1,7 +1,8 @@
-import { getServiceBySlug, getServices } from "@/utils/supabase/queries";
+import { getServiceBySlug, getServices, getUsdToXafRate } from "@/utils/supabase/queries";
 import { ServiceDetailClient } from "./service-detail-client";
+import { PricingTiers } from "@/components/sections/pricing-tiers";
 import { notFound } from "next/navigation";
-import type { Service } from "@/types/database";
+import type { Service, PricingTier } from "@/types/database";
 
 export const revalidate = 60;
 
@@ -11,14 +12,28 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { data: service } = await getServiceBySlug(slug);
+
+  const [{ data: service }, { data: allServices }, usdToXafRate] = await Promise.all([
+    getServiceBySlug(slug),
+    getServices(50, 0),
+    getUsdToXafRate(),
+  ]);
 
   if (!service) {
     notFound();
   }
 
-  const { data: allServices } = await getServices(50, 0);
   const otherServices = (allServices ?? []).filter((s: Service) => s.slug !== slug);
+  const tiers: PricingTier[] = Array.isArray(service.pricing_tiers)
+    ? service.pricing_tiers
+    : [];
 
-  return <ServiceDetailClient service={service} otherServices={otherServices} />;
+  return (
+    <>
+      <ServiceDetailClient service={service} otherServices={otherServices} />
+      {tiers.length > 0 && (
+        <PricingTiers tiers={tiers} usdToXafRate={usdToXafRate} />
+      )}
+    </>
+  );
 }

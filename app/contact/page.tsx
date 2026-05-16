@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, ExternalLink } from "lucide-react";
+import { Mail, MessageCircle, Phone, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 
 export default function ContactPage() {
@@ -182,28 +182,54 @@ export default function ContactPage() {
                   </div>
                 )}
 
-                <div className="flex flex-wrap gap-4">
-                  <Button type="submit" size="lg" disabled={isSubmitting} >
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                    <Send size={16} />
-                  </Button>
+                <Button type="submit" size="lg" disabled={isSubmitting}>
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                  <Send size={16} />
+                </Button>
 
-                  <a
-                    href="https://forms.google.com/your-form-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button type="button" variant="outline" size="lg" className="border-accent text-accent">
-                      Business Inquiry Form
-                      <ExternalLink size={16} />
-                    </Button>
-                  </a>
+                <div className="mt-2">
+                  <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                    Or reach out directly
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-3">
+                    <a
+                      href={`https://wa.me/237687099374?text=${encodeURIComponent(
+                        "Hi Cyrix! I'd like to discuss a project with you."
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button
+                        type="button"
+                        size="lg"
+                        className="bg-green-500 text-white hover:bg-green-600"
+                      >
+                        <MessageCircle size={16} />
+                        WhatsApp
+                      </Button>
+                    </a>
+
+                    <a
+                      href={`mailto:akinimbomnkwi@gmail.com?subject=${encodeURIComponent(
+                        "Project Inquiry"
+                      )}&body=${encodeURIComponent(
+                        "Hi Cyrix,\n\nI'd like to discuss a project with you.\n\n"
+                      )}`}
+                    >
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="lg"
+                        className="border-accent text-accent"
+                      >
+                        <Mail size={16} />
+                        Email
+                      </Button>
+                    </a>
+                  </div>
                 </div>
 
-                <p className="text-xs text-gray-500">
-                  * Required fields. For detailed business inquiries, please use
-                  the Business Inquiry Form.
-                </p>
+                <p className="text-xs text-gray-500">* Required fields.</p>
               </form>
             </motion.div>
 

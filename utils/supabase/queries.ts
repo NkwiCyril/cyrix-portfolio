@@ -7,7 +7,39 @@ import type {
   Service,
   Feedback,
   Course,
+  FAQ,
 } from "@/types/database";
+
+// FAQs
+export async function getFaqs(publishedOnly = true) {
+  let query = adminClient
+    .from("faqs")
+    .select("*")
+    .order("display_order", { ascending: true });
+  if (publishedOnly) query = query.eq("is_published", true);
+  return query;
+}
+
+export async function getFaqById(id: string) {
+  return adminClient.from("faqs").select("*").eq("id", id).single();
+}
+
+// App settings
+export async function getSetting<T = unknown>(key: string): Promise<T | null> {
+  const { data } = await adminClient
+    .from("app_settings")
+    .select("value")
+    .eq("key", key)
+    .single();
+  return (data?.value as T) ?? null;
+}
+
+export async function getUsdToXafRate(): Promise<number> {
+  const value = await getSetting<number | string>("usd_to_xaf_rate");
+  const parsed = typeof value === "string" ? parseFloat(value) : value;
+  return typeof parsed === "number" && parsed > 0 ? parsed : 600;
+}
+
 
 // Projects
 export async function getProjects(limit = 10, offset = 0) {

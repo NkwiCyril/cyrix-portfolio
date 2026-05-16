@@ -17,6 +17,15 @@ export interface TechStack {
   updated_at: string;
 }
 
+export interface PricingTier {
+  name: string;
+  price_xaf: number | null;
+  is_popular: boolean;
+  features: string[];
+  cta_label?: string;
+  cta_link?: string | null;
+}
+
 export interface Service {
   id: string;
   title: string;
@@ -27,6 +36,7 @@ export interface Service {
   features: string[];
   pricing_model: string | null;
   base_price: number | null;
+  pricing_tiers: PricingTier[];
   is_featured: boolean;
   display_order: number;
   created_at: string;
@@ -123,6 +133,22 @@ export interface Message {
   created_at: string;
 }
 
+export interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  display_order: number;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AppSetting {
+  key: string;
+  value: unknown;
+  updated_at: string;
+}
+
 export type Database = {
   public: {
     Tables: {
@@ -135,6 +161,8 @@ export type Database = {
       announcements: { Row: Announcement; Insert: Omit<Announcement, "id" | "created_at" | "updated_at">; Update: Partial<Omit<Announcement, "id">> };
       courses: { Row: Course; Insert: Omit<Course, "id" | "created_at" | "updated_at">; Update: Partial<Omit<Course, "id">> };
       messages: { Row: Message; Insert: Omit<Message, "id" | "created_at" | "is_read"> & { is_read?: boolean }; Update: Partial<Omit<Message, "id" | "created_at">> };
+      faqs: { Row: FAQ; Insert: Omit<FAQ, "id" | "created_at" | "updated_at">; Update: Partial<Omit<FAQ, "id">> };
+      app_settings: { Row: AppSetting; Insert: Omit<AppSetting, "updated_at">; Update: Partial<Omit<AppSetting, "key">> };
     };
   };
 };
