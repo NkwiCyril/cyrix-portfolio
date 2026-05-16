@@ -42,7 +42,7 @@ export function CTA() {
               </Button>
             </a>
             <a
-              href={`https://wa.me/237687099374?text=${encodeURIComponent(
+              href={`https://wa.me/237651085550?text=${encodeURIComponent(
                 "Hi Cyrix! I just visited your portfolio and I'm interested in working with you. Could we chat about a project?"
               )}`}
               target="_blank"
