@@ -1,16 +1,24 @@
-export default function AdminSettingsPage() {
+import { getUsdToXafRate } from "@/utils/supabase/queries";
+import { CurrencyRateForm } from "@/components/admin/forms/currency-rate-form";
+
+export const revalidate = 0;
+
+export default async function AdminSettingsPage() {
+  const usdToXafRate = await getUsdToXafRate();
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-white">Settings</h1>
-        <p className="mt-1 text-sm text-gray-400">Manage admin panel settings</p>
+        <p className="mt-1 text-sm text-gray-400">Manage site-wide configuration</p>
       </div>
 
       <div className="rounded-lg border border-gray-800 bg-[#0f0f0f] p-6">
-        <h2 className="text-lg font-semibold text-white">Account Information</h2>
-        <p className="mt-2 text-sm text-gray-400">
-          Settings page coming soon. For now, manage your account in Supabase dashboard.
+        <h2 className="text-lg font-semibold text-white">Currency Conversion</h2>
+        <p className="mt-1 text-sm text-gray-400">
+          Used to convert XAF prices to USD on service pricing cards.
         </p>
+        <CurrencyRateForm initialRate={usdToXafRate} />
       </div>
 
       <div className="rounded-lg border border-gray-800 bg-[#0f0f0f] p-6">
@@ -24,10 +32,7 @@ export default function AdminSettingsPage() {
           >
             → Supabase Dashboard
           </a>
-          <a
-            href="/admin"
-            className="block text-sm text-accent hover:underline"
-          >
+          <a href="/admin" className="block text-sm text-accent hover:underline">
             → Admin Dashboard
           </a>
         </div>
